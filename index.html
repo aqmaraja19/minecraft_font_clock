@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elegant Real Time Clock</title>
+
+<style>
+
+/* ===============================
+   CUSTOM FONT (2 FONT)
+================================= */
+
+@font-face {
+    font-family: 'ClockFont';
+    src: url('font/minecraft_ten.ttf') format('opentype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DateFont';
+    src: url('font/minecraft_regular.otf') format('opentype');
+    font-display: swap;
+}
+
+/* ===============================
+   GLOBAL STYLE
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(145deg, #1e3c72, #2a5298, #3a7bd5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+}
+
+/* ===============================
+   CONTAINER
+================================= */
+
+.container {
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+}
+
+/* ===============================
+   CLOCK STYLE
+================================= */
+
+#clock {
+    font-family: 'ClockFont', sans-serif;
+    font-size: clamp(3rem, 9vw, 7rem);
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+
+/* ===============================
+   DATE STYLE
+================================= */
+
+#date {
+    font-family: 'DateFont', sans-serif;
+    font-size: clamp(0.9rem, 3vw, 1.6rem);
+    opacity: 0.95;
+    letter-spacing: 2px;
+}
+
+/* ===============================
+   FULLSCREEN BUTTON
+================================= */
+
+.fullscreen-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    padding: 14px 20px;
+    border-radius: 14px;
+    color: white;
+    font-family: 'DateFont', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: 0.3s ease;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.05);
+}
+
+/* ===============================
+   MOBILE OPTIMIZATION
+================================= */
+
+@media (max-width: 480px) {
+    .fullscreen-btn {
+        font-size: 10px;
+        padding: 10px 14px;
+    }
+}
+@media (min-width: 1024px) {
+
+    #clock {
+        font-size: 12rem;   /* sebelumnya max 7rem */
+    }
+
+    #date {
+        font-size: 5rem;   /* sebelumnya max 1.6rem */
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<button class="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
+
+<div class="container">
+    <div id="clock">00:00:00</div>
+    <div id="date">Memuat tanggal...</div>
+</div>
+
+<script>
+
+/* ===============================
+   REAL TIME CLOCK
+================================= */
+
+function updateClock() {
+    const now = new Date();
+
+    const time = now.toLocaleTimeString('id-ID', {
+        hour12: false
+    });
+
+    const date = now.toLocaleDateString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
+    document.getElementById('clock').textContent = time;
+    document.getElementById('date').textContent = date;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+/* ===============================
+   FULLSCREEN FUNCTION
+================================= */
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+</script>
+
+</body>
+</html>
